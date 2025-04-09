@@ -75,6 +75,20 @@ document.addEventListener("DOMContentLoaded", function () {
       firstEl.classList.remove("hidden");
     }
   }
+
+  // Bloqueia o zoom por duplo toque em dispositivos móveis
+  let lastTouchEnd = 0;
+  document.addEventListener(
+    "touchend",
+    function (event) {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    },
+    false
+  );
 });
 
 // Função de rolagem do carrossel
