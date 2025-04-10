@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const toggleButton = document.getElementById("menuToggle");
   const dropdownMenu = document.getElementById("dropdownMenu");
 
+  let hideTimeout;
+
   // Alterna o menu ao clicar no botão (mobile)
   if (toggleButton && dropdownMenu) {
     toggleButton.addEventListener("click", function (event) {
@@ -24,33 +26,34 @@ document.addEventListener("DOMContentLoaded", function () {
     // Exibe o menu ao passar o mouse no botão (desktop)
     toggleButton.addEventListener("mouseenter", function () {
       if (window.innerWidth >= 768) {
+        clearTimeout(hideTimeout);
         dropdownMenu.classList.remove("hidden");
       }
     });
 
-    // Oculta o menu ao sair com o mouse do botão ou do menu (desktop)
-    let hideTimeout;
-    const hideMenu = () => {
-      if (window.innerWidth >= 768) {
-        dropdownMenu.classList.add("hidden");
-      }
-    };
-
+    // Oculta o menu com atraso ao sair do botão (desktop)
     toggleButton.addEventListener("mouseleave", function () {
       if (window.innerWidth >= 768) {
-        hideTimeout = setTimeout(hideMenu, 200);
+        hideTimeout = setTimeout(() => {
+          dropdownMenu.classList.add("hidden");
+        }, 200);
       }
     });
 
+    // Cancela o ocultamento ao entrar no dropdown
     dropdownMenu.addEventListener("mouseenter", function () {
       if (window.innerWidth >= 768) {
         clearTimeout(hideTimeout);
+        dropdownMenu.classList.remove("hidden");
       }
     });
 
+    // Oculta o menu com atraso ao sair do dropdown
     dropdownMenu.addEventListener("mouseleave", function () {
       if (window.innerWidth >= 768) {
-        hideTimeout = setTimeout(hideMenu, 200);
+        hideTimeout = setTimeout(() => {
+          dropdownMenu.classList.add("hidden");
+        }, 200);
       }
     });
   }
