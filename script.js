@@ -28,10 +28,29 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Oculta o menu ao sair com o mouse (desktop)
-    dropdownMenu.addEventListener("mouseleave", function () {
+    // Oculta o menu ao sair com o mouse do botão ou do menu (desktop)
+    let hideTimeout;
+    const hideMenu = () => {
       if (window.innerWidth >= 768) {
         dropdownMenu.classList.add("hidden");
+      }
+    };
+
+    toggleButton.addEventListener("mouseleave", function () {
+      if (window.innerWidth >= 768) {
+        hideTimeout = setTimeout(hideMenu, 200);
+      }
+    });
+
+    dropdownMenu.addEventListener("mouseenter", function () {
+      if (window.innerWidth >= 768) {
+        clearTimeout(hideTimeout);
+      }
+    });
+
+    dropdownMenu.addEventListener("mouseleave", function () {
+      if (window.innerWidth >= 768) {
+        hideTimeout = setTimeout(hideMenu, 200);
       }
     });
   }
